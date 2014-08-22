@@ -1,0 +1,17 @@
+language: haskell
+
+ghc:
+  - 7.6
+
+install:
+  - cabal install --only-dependencies
+  - cabal install hscolour hlint
+  - sudo apt-get install lvm2 ssh bridge-utils iproute iputils-arping make m4 ndisc6 python python-openssl openssl python-pyparsing python-simplejson python-bitarray python-pyinotify python-pycurl python-ipaddr socat fping
+  - sudo apt-get install python-paramiko python-psutil qemu-utils
+  - sudo apt-get install --no-install-recommends python-setuptools automake git fakeroot pandoc python-epydoc graphviz python-sphinx python-yaml
+  - sudo easy_install logilab-astng==0.24.1 logilab-common==0.58.3 pylint==0.26.0 pep8==1.3.3 mock==1.0.1 coverage
+
+script:
+  - ./autogen.sh
+  - ./configure --enable-confd=haskell --enable-manpages-in-doc --prefix=/usr --sysconfdir=/etc --localstatedir=/var "--with-ssh-initscript=service sshd"
+  - make -j4
